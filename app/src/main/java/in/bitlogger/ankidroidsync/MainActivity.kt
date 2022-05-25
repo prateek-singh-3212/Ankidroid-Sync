@@ -33,6 +33,9 @@ class MainActivity : AppCompatActivity() {
         createNotificationChannel()
         doAction(intent.getStringExtra("SYNC_NOTIFICATION"))
 
+        /**
+        * It is used to build the sync notification.
+        */
         val builder1 = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle("Anki Sync")
@@ -75,12 +78,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+    * It is used to cancel sync notification.
+    */
     private fun cancelSyncNotification() {
         NotificationManagerCompat.from(this).apply{
             this.cancel(12)
         }
     }
 
+    /**
+    * It is used to display the notification if their is error in sync.
+    */
     private fun showErrNotification() {
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
@@ -94,6 +103,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+    * It is used to display the notification after sync is completed.
+    */
     private fun showSyncCompleteNotification() {
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
@@ -107,6 +119,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+    * It is used to start the sync notification
+    */
     private fun startNotification(builder: NotificationCompat.Builder) {
         NotificationManagerCompat.from(this).apply {
             builder.setOngoing(true)
@@ -155,12 +170,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+    * TODO: Not yet implemented. 
+    * REASON: unable to find the correct way to use the function present activity without creating the new activity using pending Intent
+    * It is used to cancel the sync from notification. with the help of action button in notification.
+    */
     private fun cancelPendingIntent(): PendingIntent {
         return PendingIntent.getActivity(this, 0, intent.apply {
             putExtra("SYNC_NOTIFICATION", "ACTION_CANCEL")
         }, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
+    /**
+    *  This peice of code is used to create the notification channel. 
+    */
     private fun createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -178,9 +201,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+    *  This is used to bring the current running activity to front. 
+    *  It is used when user clicks on the notification and app is in background.
+    */
     private fun bringActivityToFront(): PendingIntent {
         val notificationIntent: Intent = this.packageManager.getLaunchIntentForPackage(this.packageName)!!
-        notificationIntent.setPackage(null) // The golden row !!!
+        notificationIntent.setPackage(null)
         notificationIntent.flags = Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
         return PendingIntent.getActivity(this, 0, notificationIntent, 0)
     }
