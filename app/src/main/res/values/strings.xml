@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Ankidroid Sync</string>
+    <string name="channel_name">Sync Deck</string>
+    <string name="channel_description">This is channel to show ankiDroid sync notification</string>
+
+</resources>
